@@ -13,6 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: install sfml
+        run: sudo apt-get install libsfml-dev
       - name: make Doodle Jump
         run: make
 
@@ -22,5 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: install sfml
+        run: brew install sfml
       - name: make Doodle Jump
         run: make
