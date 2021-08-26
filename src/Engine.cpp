@@ -1,8 +1,7 @@
 #include "Engine.hpp"
 #include <random>
 
-Engine::Engine()
-    : m_background("resource/background.png")
+Engine::Engine() : m_background("resource/background.png")
 {
     m_window.create(sf::VideoMode(640, 1024), "Doodle Jump");
     m_window.setFramerateLimit(60);
@@ -25,14 +24,16 @@ Engine::Engine()
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist6(0,526);
 
-    for (size_t i = 0; i < 1024; i += 100) {
-            m_platforms.emplace_back();
-            m_platforms.back().setTexture(m_platformTexture);
-            m_platforms.back().setPosition(dist6(rng), i);
+    for (int i = 1000; i >= 0; i -= 100) {
+        m_platforms.emplace_back();
+        m_platforms.back().setTexture(m_platformTexture);
+        m_platforms.back().setPosition(dist6(rng), i);
     }
+    m_doodle->m_sprite.setPosition(m_platforms.front().getPosition().x, m_doodle->m_sprite.getPosition().y);
+    start();
 }
 
-int Engine::start()
+void Engine::start()
 {
     while (m_window.isOpen()) {
         platforms();
@@ -43,7 +44,6 @@ int Engine::start()
         m_window.display();
         sf::sleep(sf::milliseconds(15));
     }
-    return EXIT_SUCCESS;
 }
 
 void Engine::event()

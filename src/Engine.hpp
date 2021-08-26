@@ -25,7 +25,7 @@ public:
     Engine(const Engine &) = delete;
     Engine &operator=(const Engine &) = delete;
 
-    int start();
+    void start();
     void event();
     void draw();
     void platforms();
