@@ -13,6 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: update packages
+        run: sudo apt-get update
       - name: install sfml
         run: sudo apt-get install libsfml-dev
       - name: make Doodle Jump
