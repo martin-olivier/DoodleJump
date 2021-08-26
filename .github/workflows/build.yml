@@ -1,0 +1,26 @@
+name: Build
+
+on: [push]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build_ubuntu:
+    name: ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: make Doodle Jump
+        run: make
+
+  build_macos:
+    name: macOS
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: make Doodle Jump
+        run: make
