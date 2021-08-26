@@ -5,6 +5,7 @@
 #include <SFML/System.hpp>
 #include <vector>
 #include "Sound.hpp"
+#include "Platform.hpp"
 
 enum class Movement {
     UP,
@@ -15,12 +16,12 @@ class Doodle
 {
 public:
     sf::Sprite m_sprite;
-    std::vector<sf::Sprite> &m_platforms;
+    std::vector<std::unique_ptr<IPlatform>> &m_platforms;
     Movement m_mov = Movement::DOWN;
     float last_y{};
     Sound m_jumpSound{};
 
-    Doodle(const sf::Texture &texture, std::vector<sf::Sprite> &platforms);
+    Doodle(const sf::Texture &texture, std::vector<std::unique_ptr<IPlatform>> &platforms);
     ~Doodle() = default;
     void update();
 };

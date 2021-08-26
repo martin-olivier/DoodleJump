@@ -1,6 +1,6 @@
 #include "Doodle.hpp"
 
-Doodle::Doodle(const sf::Texture &texture, std::vector<sf::Sprite> &platforms) : m_sprite(texture), m_platforms(platforms)
+Doodle::Doodle(const sf::Texture &texture, std::vector<std::unique_ptr<IPlatform>> &platforms) : m_sprite(texture), m_platforms(platforms)
 {
     m_sprite.setPosition(210, 500);
     last_y = 500;
@@ -12,11 +12,13 @@ void Doodle::update()
     auto pos = m_sprite.getPosition();
 
     if (m_mov == Movement::DOWN) {
-        for (const auto &p : m_platforms) {
-            if ((p.getPosition().y == m_sprite.getPosition().y + 110 or p.getPosition().y == m_sprite.getPosition().y + 115) and m_sprite.getPosition().x > p.getPosition().x - 100 and m_sprite.getPosition().x < p.getPosition().x + 100) {
-                m_mov = Movement::UP;
-                last_y = m_sprite.getPosition().y;
-                m_jumpSound.play(true);
+        for (auto &p : m_platforms) {
+            if ((p->getSprite().getPosition().y == m_sprite.getPosition().y + 110 or p->getSprite().getPosition().y == m_sprite.getPosition().y + 115) and m_sprite.getPosition().x > p->getSprite().getPosition().x - 100 and m_sprite.getPosition().x < p->getSprite().getPosition().x + 100) {
+                if (p->jumped()) {
+                    m_mov = Movement::UP;
+                    last_y = m_sprite.getPosition().y;
+                    m_jumpSound.play(true);
+                }
             }
         }
     }
@@ -38,9 +40,9 @@ void Doodle::update()
                 move = 5;
             else
                 move = 10;
-            if (m_sprite.getPosition().y < 200) {
+            if (m_sprite.getPosition().y < 500) {
                 for (auto &p : m_platforms)
-                    p.setPosition(p.getPosition().x, p.getPosition().y + move);
+                    p->getSprite().setPosition(p->getSprite().getPosition().x, p->getSprite().getPosition().y + move);
                 last_y += move;
             }
             else
