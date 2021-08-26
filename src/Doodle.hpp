@@ -1,8 +1,10 @@
 #pragma once
 
-#include "Tile.hpp"
-#include "Sound.hpp"
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
 #include <vector>
+#include "Sound.hpp"
 
 enum class Movement {
     UP,

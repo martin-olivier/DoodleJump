@@ -1,7 +1,7 @@
 #include "Engine.hpp"
 #include <random>
 
-Engine::Engine() : m_background("resource/background.png")
+Engine::Engine()
 {
     m_window.create(sf::VideoMode(640, 1024), "Doodle Jump");
     m_window.setFramerateLimit(60);
@@ -18,6 +18,9 @@ Engine::Engine() : m_background("resource/background.png")
         throw std::exception();
     if (!m_platformTexture.loadFromFile("resource/platform.png"))
         throw std::exception();
+    if (!m_backgroundTexture.loadFromFile("resource/background.png"))
+        throw std::exception();
+    m_background.setTexture(m_backgroundTexture);
     m_doodle = std::make_unique<Doodle>(m_rightTexture, m_platforms);
 
     std::random_device dev;

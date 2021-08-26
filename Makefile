@@ -1,5 +1,4 @@
 SRC	=	src/main.cpp				\
-		src/Tile.cpp				\
 		src/Sound.cpp				\
 		src/Engine.cpp				\
 		src/Doodle.cpp				\

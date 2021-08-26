@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include "Tile.hpp"
 #include "Sound.hpp"
 #include "Doodle.hpp"
 
@@ -12,10 +11,11 @@ private:
     sf::Image m_app_icon{};
     sf::Event m_event{};
 
-    Tile m_background;
     sf::Texture m_rightTexture;
     sf::Texture m_leftTexture;
     sf::Texture m_platformTexture;
+    sf::Texture m_backgroundTexture;
+    sf::Sprite m_background;
 
     std::vector<sf::Sprite> m_platforms{};
     std::unique_ptr<Doodle> m_doodle;
