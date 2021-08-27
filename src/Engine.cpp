@@ -18,7 +18,9 @@ Engine::Engine()
         throw std::exception();
     if (!m_platformTexture.loadFromFile("resource/platform.png"))
         throw std::exception();
-    if (!m_movingPlatformTexture.loadFromFile("resource/moving_platform.png"))
+    if (!m_horizontalPlatformTexture.loadFromFile("resource/horizontal_platform.png"))
+        throw std::exception();
+    if (!m_verticalPlatformTexture.loadFromFile("resource/vertical_platform.png"))
         throw std::exception();
     if (!m_backgroundTexture.loadFromFile("resource/background.png"))
         throw std::exception();
@@ -30,8 +32,6 @@ Engine::Engine()
     if (!m_brokenPlatformTextures[2].loadFromFile("resource/broken_platform2.png"))
         throw std::exception();
     if (!m_brokenPlatformTextures[3].loadFromFile("resource/broken_platform3.png"))
-        throw std::exception();
-    if (!m_brokenPlatformTextures[4].loadFromFile("resource/broken_platform4.png"))
         throw std::exception();
 
     m_platformBreakSound.setSound("resource/platform_break.wav");
@@ -72,13 +72,13 @@ void Engine::event()
     }
     auto pos = m_doodle->m_sprite.getPosition();
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        m_doodle->m_sprite.setPosition(pos.x + 5, pos.y);
+        m_doodle->m_sprite.setPosition(pos.x + 8, pos.y);
         m_doodle->m_sprite.setTexture(m_rightTexture);
         if (m_doodle->m_sprite.getPosition().x >= 640)
             m_doodle->m_sprite.setPosition(-110, m_doodle->m_sprite.getPosition().y);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        m_doodle->m_sprite.setPosition(pos.x - 5, pos.y);
+        m_doodle->m_sprite.setPosition(pos.x - 8, pos.y);
         m_doodle->m_sprite.setTexture(m_leftTexture);
         if (m_doodle->m_sprite.getPosition().x <= -110)
             m_doodle->m_sprite.setPosition(640, m_doodle->m_sprite.getPosition().y);
@@ -109,17 +109,21 @@ void Engine::platforms()
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist526(0,526);
-    std::uniform_int_distribution<std::mt19937::result_type> dist10(0,8);
+    std::uniform_int_distribution<std::mt19937::result_type> dist20(0,8);
 
     static bool last_was_broken = false;
 
     if (!m_platforms.empty() and m_platforms.back()->getSprite().getPosition().y > 100) {
-        auto rand = dist10(rng);
-        if (rand == 0 or rand == 1) {
+        auto rand = dist20(rng);
+        if (rand >= 0 and rand < 4) {
             last_was_broken = false;
-            m_platforms.emplace_back(std::make_unique<MovingPlatform>(m_movingPlatformTexture));
+            m_platforms.emplace_back(std::make_unique<HorizontalPlatform>(m_horizontalPlatformTexture));
         }
-        else if (rand == 2 and !last_was_broken) {
+        else if (rand == 4) {
+            last_was_broken = false;
+            m_platforms.emplace_back(std::make_unique<VerticalPlatform>(m_verticalPlatformTexture));
+        }
+        else if ((rand == 5 or rand == 6) and !last_was_broken) {
             last_was_broken = true;
             m_platforms.emplace_back(std::make_unique<BrokenPlatform>(m_brokenPlatformTextures, m_platformBreakSound));
         }

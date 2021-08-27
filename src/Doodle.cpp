@@ -15,7 +15,7 @@ void Doodle::update()
     if (pos.y >= 1020 and pos.y < 1030)
         m_fallSound.play(true);
 
-    if (pos.y > 1024) {
+    if (pos.y > 1030) {
         for (auto &p : m_platforms)
             p->getSprite().setPosition(p->getSprite().getPosition().x, p->getSprite().getPosition().y - 20);
         return;
@@ -23,7 +23,7 @@ void Doodle::update()
 
     if (m_mov == Movement::DOWN) {
         for (auto &p : m_platforms) {
-            if ((p->getSprite().getPosition().y == m_sprite.getPosition().y + 110 or p->getSprite().getPosition().y == m_sprite.getPosition().y + 115) and m_sprite.getPosition().x > p->getSprite().getPosition().x - 100 and m_sprite.getPosition().x < p->getSprite().getPosition().x + 100) {
+            if ((p->getSprite().getPosition().y >= m_sprite.getPosition().y + 110 and p->getSprite().getPosition().y <= m_sprite.getPosition().y + 125) and m_sprite.getPosition().x > p->getSprite().getPosition().x - 100 and m_sprite.getPosition().x < p->getSprite().getPosition().x + 100) {
                 if (p->jumped()) {
                     m_mov = Movement::UP;
                     last_y = m_sprite.getPosition().y;

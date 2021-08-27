@@ -4,7 +4,9 @@
 
 enum class Direction {
     RIGHT,
-    LEFT
+    LEFT,
+    UP,
+    DOWN
 };
 
 class IPlatform
@@ -40,17 +42,17 @@ public:
     }
 };
 
-class MovingPlatform final : public IPlatform
+class HorizontalPlatform final : public IPlatform
 {
 private:
     sf::Sprite m_sprite;
     Direction m_direction = Direction::RIGHT;
 public:
-    explicit MovingPlatform(const sf::Texture &texture)
+    explicit HorizontalPlatform(const sf::Texture &texture)
     {
         m_sprite.setTexture(texture);
     };
-    ~MovingPlatform() override = default;
+    ~HorizontalPlatform() override = default;
     sf::Sprite& getSprite() override
     {
         return m_sprite;
@@ -61,13 +63,54 @@ public:
             if (m_sprite.getPosition().x >= 526)
                 m_direction = Direction::LEFT;
             else
-                m_sprite.setPosition(m_sprite.getPosition().x + 5, m_sprite.getPosition().y);
+                m_sprite.setPosition(m_sprite.getPosition().x + 3, m_sprite.getPosition().y);
         }
         else if (m_direction == Direction::LEFT) {
             if (m_sprite.getPosition().x <= 0)
                 m_direction = Direction::RIGHT;
             else
-                m_sprite.setPosition(m_sprite.getPosition().x - 5, m_sprite.getPosition().y);
+                m_sprite.setPosition(m_sprite.getPosition().x - 3, m_sprite.getPosition().y);
+        }
+    }
+    bool jumped() override
+    {
+        return true;
+    }
+};
+
+class VerticalPlatform final : public IPlatform
+{
+private:
+    sf::Sprite m_sprite;
+    Direction m_direction = Direction::DOWN;
+    int m_distance = 0;
+public:
+    explicit VerticalPlatform(const sf::Texture &texture)
+    {
+        m_sprite.setTexture(texture);
+    };
+    ~VerticalPlatform() override = default;
+    sf::Sprite& getSprite() override
+    {
+        return m_sprite;
+    };
+    void update() override
+    {
+        if (m_direction == Direction::DOWN) {
+            if (m_distance >= 150)
+                m_direction = Direction::UP;
+            else {
+                m_sprite.setPosition(m_sprite.getPosition().x, m_sprite.getPosition().y + 2);
+                m_distance += 2;
+            }
+        }
+        else if (m_direction == Direction::UP) {
+            if (m_distance <= 0)
+                m_direction = Direction::DOWN;
+            else {
+                m_sprite.setPosition(m_sprite.getPosition().x, m_sprite.getPosition().y - 2);
+                m_distance -= 2;
+            }
         }
     }
     bool jumped() override
@@ -80,13 +123,13 @@ class BrokenPlatform final : public IPlatform
 {
 private:
     sf::Sprite m_sprite;
-    const std::array<sf::Texture, 5> &m_textures;
+    const std::array<sf::Texture, 4> &m_textures;
     Sound &m_platformBreakSound;
     bool broken = false;
     size_t it = 0;
     size_t tick = 0;
 public:
-    explicit BrokenPlatform(const std::array<sf::Texture, 5> &textures, Sound &platformBreakSound) : m_textures(textures), m_platformBreakSound(platformBreakSound)
+    explicit BrokenPlatform(const std::array<sf::Texture, 4> &textures, Sound &platformBreakSound) : m_textures(textures), m_platformBreakSound(platformBreakSound)
     {
         m_sprite.setTexture(textures[0]);
     };
@@ -100,7 +143,8 @@ public:
         if (!broken)
             return;
         tick++;
-        if (tick % 5 == 0 and it < 4) {
+        m_sprite.setPosition(m_sprite.getPosition().x, m_sprite.getPosition().y + 10);
+        if (tick % 5 == 0 and it < 3) {
             it = tick / 5;
             m_sprite.setTexture(m_textures[it]);
         }
