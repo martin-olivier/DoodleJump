@@ -74,10 +74,14 @@ void Engine::event()
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         m_doodle->m_sprite.setPosition(pos.x + 5, pos.y);
         m_doodle->m_sprite.setTexture(m_rightTexture);
+        if (m_doodle->m_sprite.getPosition().x >= 640)
+            m_doodle->m_sprite.setPosition(-110, m_doodle->m_sprite.getPosition().y);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
         m_doodle->m_sprite.setPosition(pos.x - 5, pos.y);
         m_doodle->m_sprite.setTexture(m_leftTexture);
+        if (m_doodle->m_sprite.getPosition().x <= -110)
+            m_doodle->m_sprite.setPosition(640, m_doodle->m_sprite.getPosition().y);
     }
 }
 

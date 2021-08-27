@@ -5,11 +5,21 @@ Doodle::Doodle(const sf::Texture &texture, std::vector<std::unique_ptr<IPlatform
     m_sprite.setPosition(210, 500);
     last_y = 500;
     m_jumpSound.setSound("resource/jump.wav");
+    m_fallSound.setSound("resource/fall.wav");
 }
 
 void Doodle::update()
 {
     auto pos = m_sprite.getPosition();
+
+    if (pos.y >= 1020 and pos.y < 1030)
+        m_fallSound.play(true);
+
+    if (pos.y > 1024) {
+        for (auto &p : m_platforms)
+            p->getSprite().setPosition(p->getSprite().getPosition().x, p->getSprite().getPosition().y - 20);
+        return;
+    }
 
     if (m_mov == Movement::DOWN) {
         for (auto &p : m_platforms) {

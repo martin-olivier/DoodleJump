@@ -20,6 +20,7 @@ public:
     Movement m_mov = Movement::DOWN;
     float last_y{};
     Sound m_jumpSound{};
+    Sound m_fallSound{};
 
     Doodle(const sf::Texture &texture, std::vector<std::unique_ptr<IPlatform>> &platforms);
     ~Doodle() = default;
