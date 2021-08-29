@@ -118,7 +118,7 @@ void Engine::platforms()
 
     if (!m_platforms.empty() and m_platforms.back()->getSprite().getPosition().y > 100) {
         auto rand = dist20(rng);
-        if (rand >= 0 and rand < 4) {
+        if (rand < 4) {
             last_was_broken = false;
             m_platforms.emplace_back(std::make_unique<HorizontalPlatform>(m_horizontalPlatformTexture));
         }

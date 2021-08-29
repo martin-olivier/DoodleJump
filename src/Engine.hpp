@@ -13,14 +13,14 @@ private:
     sf::Image m_app_icon{};
     sf::Event m_event{};
 
-    sf::Texture m_rightTexture;
-    sf::Texture m_leftTexture;
-    sf::Texture m_platformTexture;
-    sf::Texture m_verticalPlatformTexture;
-    sf::Texture m_horizontalPlatformTexture;
-    std::array<sf::Texture, 4> m_brokenPlatformTextures;
-    sf::Texture m_backgroundTexture;
-    sf::Sprite m_background;
+    sf::Texture m_rightTexture{};
+    sf::Texture m_leftTexture{};
+    sf::Texture m_platformTexture{};
+    sf::Texture m_verticalPlatformTexture{};
+    sf::Texture m_horizontalPlatformTexture{};
+    std::array<sf::Texture, 4> m_brokenPlatformTextures{};
+    sf::Texture m_backgroundTexture{};
+    sf::Sprite m_background{};
 
     Sound m_platformBreakSound{};
 

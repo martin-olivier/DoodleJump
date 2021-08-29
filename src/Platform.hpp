@@ -45,7 +45,7 @@ public:
 class Platform final : public BoostedPlatform
 {
 private:
-    sf::Sprite m_sprite;
+    sf::Sprite m_sprite{};
 public:
     explicit Platform(const sf::Texture &texture)
     {
@@ -83,7 +83,7 @@ public:
 class HorizontalPlatform final : public BoostedPlatform
 {
 private:
-    sf::Sprite m_sprite;
+    sf::Sprite m_sprite{};
     Direction m_direction = Direction::RIGHT;
 public:
     explicit HorizontalPlatform(const sf::Texture &texture)
@@ -133,7 +133,7 @@ public:
 class VerticalPlatform final : public BoostedPlatform
 {
 private:
-    sf::Sprite m_sprite;
+    sf::Sprite m_sprite{};
     Direction m_direction = Direction::DOWN;
     int m_distance = 0;
 public:
@@ -188,7 +188,7 @@ public:
 class BrokenPlatform final : public IPlatform
 {
 private:
-    sf::Sprite m_sprite;
+    sf::Sprite m_sprite{};
     const std::array<sf::Texture, 4> &m_textures;
     std::unique_ptr<IBoost> m_boost = nullptr;
     Sound &m_platformBreakSound;

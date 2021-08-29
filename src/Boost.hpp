@@ -13,7 +13,7 @@ public:
 class FederBoost final : public IBoost
 {
 private:
-    sf::Sprite m_sprite;
+    sf::Sprite m_sprite{};
     sf::Texture m_texture;
     sf::Texture m_textureUp;
     Sound m_sound;
@@ -50,7 +50,7 @@ public:
 class TrampolineBoost final : public IBoost
 {
 private:
-    sf::Sprite m_sprite;
+    sf::Sprite m_sprite{};
     sf::Texture m_texture;
     sf::Texture m_textureUp;
     Sound m_sound;
