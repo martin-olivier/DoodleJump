@@ -14,9 +14,9 @@ class FederBoost final : public IBoost
 {
 private:
     sf::Sprite m_sprite{};
-    sf::Texture m_texture;
-    sf::Texture m_textureUp;
-    Sound m_sound;
+    sf::Texture m_texture{};
+    sf::Texture m_textureUp{};
+    Sound m_sound{};
     int m_travel = 1000;
     sf::Vector2f m_size = {40, 60};
 public:
@@ -51,9 +51,9 @@ class TrampolineBoost final : public IBoost
 {
 private:
     sf::Sprite m_sprite{};
-    sf::Texture m_texture;
-    sf::Texture m_textureUp;
-    Sound m_sound;
+    sf::Texture m_texture{};
+    sf::Texture m_textureUp{};
+    Sound m_sound{};
     int m_travel = 2000;
     sf::Vector2f m_size = {80, 35};
 public:
