@@ -30,12 +30,12 @@ public:
     {
         std::random_device dev;
         std::mt19937 rng(dev());
-        std::uniform_int_distribution<std::mt19937::result_type> dist526(0,20);
+        std::uniform_int_distribution<std::mt19937::result_type> dist526(0,50);
         auto rand = dist526(rng);
-        if (rand == 0) {
+        if (rand == 0 or rand == 1) {
             m_boost = std::make_unique<FederBoost>();
         }
-        else if (rand == 1) {
+        else if (rand == 2) {
             m_boost = std::make_unique<TrampolineBoost>();
         }
     };

@@ -25,7 +25,7 @@ private:
     Sound m_platformBreakSound{};
 
     std::vector<std::unique_ptr<IPlatform>> m_platforms{};
-    std::unique_ptr<Doodle> m_doodle;
+    std::unique_ptr<Doodle> m_doodle{};
 public:
     Engine();
     ~Engine() = default;
