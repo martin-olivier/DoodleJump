@@ -95,8 +95,11 @@ void Engine::update()
 void Engine::draw()
 {
     m_window.draw(m_background);
-    for (const auto &p : m_platforms)
+    for (const auto &p : m_platforms) {
         m_window.draw(p->getSprite());
+        if (p->getBoost())
+            m_window.draw(p->getBoost()->getSprite());
+    }
     m_window.draw(m_doodle->m_sprite);
 }
 

@@ -18,7 +18,8 @@ public:
     sf::Sprite m_sprite;
     std::vector<std::unique_ptr<IPlatform>> &m_platforms;
     Movement m_mov = Movement::DOWN;
-    float last_y{};
+    float m_last_y{};
+    float m_travel{};
     Sound m_jumpSound{};
     Sound m_fallSound{};
 
