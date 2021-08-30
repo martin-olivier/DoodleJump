@@ -36,8 +36,22 @@ Engine::Engine()
 
     m_platformBreakSound.setSound("resource/platform_break.wav");
 
+    m_font.loadFromFile("resource/arial.ttf");
+    m_score_display.setFont(m_font);
+    m_score_display.setPosition(10, 10);
+    m_score_display.setCharacterSize(40);
+    m_score_display.setFillColor(sf::Color::Black);
+
     m_background.setTexture(m_backgroundTexture);
-    m_doodle = std::make_unique<Doodle>(m_rightTexture, m_platforms);
+    reset();
+    start();
+}
+
+void Engine::reset()
+{
+    m_score = 0;
+    m_platforms.clear();
+    m_doodle = std::make_unique<Doodle>(m_rightTexture, m_score, m_platforms);
 
     std::random_device dev;
     std::mt19937 rng(dev());
@@ -48,8 +62,8 @@ Engine::Engine()
         m_platforms.back()->getSprite().setPosition(dist526(rng), i);
     }
     m_doodle->m_sprite.setPosition(m_platforms.front()->getSprite().getPosition().x, m_doodle->m_sprite.getPosition().y);
-    start();
 }
+
 
 void Engine::start()
 {
@@ -90,6 +104,16 @@ void Engine::update()
     m_doodle->update();
     for (auto &p : m_platforms)
         p->update();
+
+    // Handle Game Over
+
+    float lower_y = -30;
+    for (auto &p : m_platforms) {
+        if (p->getSprite().getPosition().y > lower_y)
+            lower_y = p->getSprite().getPosition().y;
+    }
+    if (lower_y == -30)
+        gameOver();
 }
 
 void Engine::draw()
@@ -101,6 +125,8 @@ void Engine::draw()
             m_window.draw(p->getBoost()->getSprite());
     }
     m_window.draw(m_doodle->m_sprite);
+    m_score_display.setString(std::to_string(m_score));
+    m_window.draw(m_score_display);
 }
 
 void Engine::platforms()
@@ -135,5 +161,46 @@ void Engine::platforms()
             m_platforms.emplace_back(std::make_unique<Platform>(m_platformTexture));
         }
         m_platforms.back()->getSprite().setPosition(dist526(rng), 0);
+    }
+}
+
+void Engine::gameOver()
+{
+    sf::Text score;
+    sf::Sprite game_over;
+    sf::Texture game_over_texture;
+    sf::Sprite play_again;
+    sf::Texture play_again_texture;
+
+    game_over_texture.loadFromFile("resource/game_over.png");
+    play_again_texture.loadFromFile("resource/play_again.png");
+    game_over.setTexture(game_over_texture);
+    play_again.setTexture(play_again_texture);
+    game_over.setPosition(100, 200);
+    play_again.setPosition(200, 800);
+    score.setFont(m_font);
+    score.setPosition(150, 500);
+    score.setCharacterSize(40);
+    score.setFillColor(sf::Color::Black);
+    score.setString("your score: " + std::to_string(m_score));
+
+    while (m_window.isOpen()) {
+        while (m_window.pollEvent(m_event)) {
+            if (m_event.type == sf::Event::Closed)
+                m_window.close();
+            if (m_event.type == sf::Event::MouseButtonReleased && m_event.mouseButton.button == sf::Mouse::Left) {
+                if (m_event.mouseButton.x >= 200 and m_event.mouseButton.x <= 424 and m_event.mouseButton.y >= 800 and m_event.mouseButton.y <= 885) {
+                    reset();
+                    start();
+                }
+            }
+        }
+        m_window.clear(sf::Color::Black);
+        m_window.draw(m_background);
+        m_window.draw(game_over);
+        m_window.draw(play_again);
+        m_window.draw(score);
+        m_window.display();
+        sf::sleep(sf::milliseconds(15));
     }
 }

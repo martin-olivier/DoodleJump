@@ -1,6 +1,7 @@
 #include "Doodle.hpp"
 
-Doodle::Doodle(const sf::Texture &texture, std::vector<std::unique_ptr<IPlatform>> &platforms) : m_sprite(texture), m_platforms(platforms)
+Doodle::Doodle(const sf::Texture &texture, size_t &score, std::vector<std::unique_ptr<IPlatform>> &platforms)
+    : m_sprite(texture), m_platforms(platforms), m_score(score)
 {
     m_sprite.setPosition(210, 500);
     m_last_y = 500;
@@ -17,8 +18,7 @@ void Doodle::update()
 
     if (pos.y >= 1020 and pos.y < 1030)
         m_fallSound.play(true);
-
-    if (pos.y > 1030) {
+    else if (pos.y > 1030) {
         for (auto &p : m_platforms)
             p->setPosition(p->getSprite().getPosition().x, p->getSprite().getPosition().y - 20);
         return;
@@ -72,6 +72,7 @@ void Doodle::update()
                 for (auto &p : m_platforms)
                     p->setPosition(p->getSprite().getPosition().x, p->getSprite().getPosition().y + move);
                 m_last_y += move;
+                m_score += static_cast<size_t>(move);
             }
             else
                 m_sprite.setPosition(pos.x, pos.y - move);

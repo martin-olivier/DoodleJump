@@ -26,15 +26,21 @@ private:
 
     std::vector<std::unique_ptr<IPlatform>> m_platforms{};
     std::unique_ptr<Doodle> m_doodle{};
+
+    size_t m_score{};
+    sf::Text m_score_display{};
+    sf::Font m_font{};
 public:
     Engine();
     ~Engine() = default;
     Engine(const Engine &) = delete;
     Engine &operator=(const Engine &) = delete;
 
+    void reset();
     void start();
     void event();
     void update();
     void draw();
     void platforms();
+    void gameOver();
 };

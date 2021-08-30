@@ -22,8 +22,9 @@ public:
     float m_travel{};
     Sound m_jumpSound{};
     Sound m_fallSound{};
+    size_t &m_score;
 
-    Doodle(const sf::Texture &texture, std::vector<std::unique_ptr<IPlatform>> &platforms);
+    Doodle(const sf::Texture &texture, size_t &score, std::vector<std::unique_ptr<IPlatform>> &platforms);
     ~Doodle() = default;
     void update();
 };
