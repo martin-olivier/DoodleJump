@@ -1,4 +1,5 @@
 #include "Engine.hpp"
+#include "Score.hpp"
 #include <random>
 
 Engine::Engine()
@@ -107,12 +108,12 @@ void Engine::update()
 
     // Handle Game Over
 
-    float lower_y = -30;
+    float lower_y = -60;
     for (auto &p : m_platforms) {
         if (p->getSprite().getPosition().y > lower_y)
             lower_y = p->getSprite().getPosition().y;
     }
-    if (lower_y == -30)
+    if (lower_y == -60)
         gameOver();
 }
 
@@ -172,6 +173,12 @@ void Engine::gameOver()
     sf::Sprite play_again;
     sf::Texture play_again_texture;
 
+    auto best_score = Score::Load("score.txt");
+    if (m_score > best_score) {
+        Score::Save("score.txt", m_score);
+        best_score = m_score;
+    }
+
     game_over_texture.loadFromFile("resource/game_over.png");
     play_again_texture.loadFromFile("resource/play_again.png");
     game_over.setTexture(game_over_texture);
@@ -182,7 +189,7 @@ void Engine::gameOver()
     score.setPosition(150, 500);
     score.setCharacterSize(40);
     score.setFillColor(sf::Color::Black);
-    score.setString("your score: " + std::to_string(m_score));
+    score.setString("your score: " + std::to_string(m_score) + "\nyour best score: " + std::to_string(best_score));
 
     while (m_window.isOpen()) {
         while (m_window.pollEvent(m_event)) {
