@@ -1,9 +1,9 @@
-#include "Engine.hpp"
+#include "Core.hpp"
 #include "Score.hpp"
-#include <random>
 
-Engine::Engine()
+Core::Core()
 {
+    Data::Load();
     m_window.create(sf::VideoMode(640, 1024), "Doodle Jump");
     m_window.setFramerateLimit(60);
 
@@ -13,60 +13,33 @@ Engine::Engine()
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
     m_window.setPosition(sf::Vector2i(desktop.width / 2 - m_window.getSize().x/2, desktop.height/2 - m_window.getSize().y/2));
 
-    if (!m_rightTexture.loadFromFile("resource/right.png"))
-        throw std::exception();
-    if (!m_leftTexture.loadFromFile("resource/left.png"))
-        throw std::exception();
-    if (!m_platformTexture.loadFromFile("resource/platform.png"))
-        throw std::exception();
-    if (!m_horizontalPlatformTexture.loadFromFile("resource/horizontal_platform.png"))
-        throw std::exception();
-    if (!m_verticalPlatformTexture.loadFromFile("resource/vertical_platform.png"))
-        throw std::exception();
-    if (!m_backgroundTexture.loadFromFile("resource/background.png"))
-        throw std::exception();
-
-    if (!m_brokenPlatformTextures[0].loadFromFile("resource/broken_platform0.png"))
-        throw std::exception();
-    if (!m_brokenPlatformTextures[1].loadFromFile("resource/broken_platform1.png"))
-        throw std::exception();
-    if (!m_brokenPlatformTextures[2].loadFromFile("resource/broken_platform2.png"))
-        throw std::exception();
-    if (!m_brokenPlatformTextures[3].loadFromFile("resource/broken_platform3.png"))
-        throw std::exception();
-
-    m_platformBreakSound.setSound("resource/platform_break.wav");
-
-    m_font.loadFromFile("resource/arial.ttf");
-    m_score_display.setFont(m_font);
+    m_score_display.setFont(Data::m_font);
     m_score_display.setPosition(10, 10);
     m_score_display.setCharacterSize(40);
     m_score_display.setFillColor(sf::Color::Black);
 
-    m_background.setTexture(m_backgroundTexture);
+    m_background.setTexture(Data::m_backgroundTexture);
     reset();
     start();
 }
 
-void Engine::reset()
+void Core::reset()
 {
     m_score = 0;
     m_platforms.clear();
-    m_doodle = std::make_unique<Doodle>(m_rightTexture, m_score, m_platforms);
+    m_doodle = std::make_unique<Doodle>(m_score, m_platforms);
 
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist526(0,526);
+    std::uniform_int_distribution<std::mt19937::result_type> dist(0,526);
 
     for (int i = 1000; i >= 0; i -= 100) {
-        m_platforms.emplace_back(std::make_unique<Platform>(m_platformTexture));
-        m_platforms.back()->getSprite().setPosition(dist526(rng), i);
+        m_platforms.emplace_back(std::make_unique<Platform>());
+        m_platforms.back()->setPosition(dist(Data::rng), i);
     }
-    m_doodle->m_sprite.setPosition(m_platforms.front()->getSprite().getPosition().x, m_doodle->m_sprite.getPosition().y);
+    m_doodle->m_sprite.setPosition(m_platforms.front()->getPosition().x, m_doodle->m_sprite.getPosition().y);
 }
 
 
-void Engine::start()
+void Core::start()
 {
     while (m_window.isOpen()) {
         platforms();
@@ -79,7 +52,7 @@ void Engine::start()
     }
 }
 
-void Engine::event()
+void Core::event()
 {
     while (m_window.pollEvent(m_event)) {
         if (m_event.type == sf::Event::Closed)
@@ -88,19 +61,19 @@ void Engine::event()
     auto pos = m_doodle->m_sprite.getPosition();
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         m_doodle->m_sprite.setPosition(pos.x + 8, pos.y);
-        m_doodle->m_sprite.setTexture(m_rightTexture);
+        m_doodle->m_sprite.setTexture(Data::m_rightTexture);
         if (m_doodle->m_sprite.getPosition().x >= 640)
             m_doodle->m_sprite.setPosition(-110, m_doodle->m_sprite.getPosition().y);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
         m_doodle->m_sprite.setPosition(pos.x - 8, pos.y);
-        m_doodle->m_sprite.setTexture(m_leftTexture);
+        m_doodle->m_sprite.setTexture(Data::m_leftTexture);
         if (m_doodle->m_sprite.getPosition().x <= -110)
             m_doodle->m_sprite.setPosition(640, m_doodle->m_sprite.getPosition().y);
     }
 }
 
-void Engine::update()
+void Core::update()
 {
     m_doodle->update();
     for (auto &p : m_platforms)
@@ -110,14 +83,14 @@ void Engine::update()
 
     float lower_y = -60;
     for (auto &p : m_platforms) {
-        if (p->getSprite().getPosition().y > lower_y)
-            lower_y = p->getSprite().getPosition().y;
+        if (p->getPosition().y > lower_y)
+            lower_y = p->getPosition().y;
     }
     if (lower_y == -60)
         gameOver();
 }
 
-void Engine::draw()
+void Core::draw()
 {
     m_window.draw(m_background);
     for (const auto &p : m_platforms) {
@@ -130,48 +103,44 @@ void Engine::draw()
     m_window.draw(m_score_display);
 }
 
-void Engine::platforms()
+void Core::platforms()
 {
     for (size_t i = 0; i < m_platforms.size(); i++) {
-        if (m_platforms[i]->getSprite().getPosition().y > 1024)
+        if (m_platforms[i]->getPosition().y > 1024)
             m_platforms.erase(m_platforms.begin() + i);
     }
-    std::random_device dev;
-    std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist526(0,526);
     std::uniform_int_distribution<std::mt19937::result_type> dist20(0,8);
 
     static bool last_was_broken = false;
 
-    if (!m_platforms.empty() and m_platforms.back()->getSprite().getPosition().y > 100) {
-        auto rand = dist20(rng);
+    if (!m_platforms.empty() and m_platforms.back()->getPosition().y > 100) {
+        auto rand = dist20(Data::rng);
         if (rand < 4) {
             last_was_broken = false;
-            m_platforms.emplace_back(std::make_unique<HorizontalPlatform>(m_horizontalPlatformTexture));
+            m_platforms.emplace_back(std::make_unique<HorizontalPlatform>());
         }
         else if (rand == 4) {
             last_was_broken = false;
-            m_platforms.emplace_back(std::make_unique<VerticalPlatform>(m_verticalPlatformTexture));
+            m_platforms.emplace_back(std::make_unique<VerticalPlatform>());
         }
         else if ((rand == 5 or rand == 6) and !last_was_broken) {
             last_was_broken = true;
-            m_platforms.emplace_back(std::make_unique<BrokenPlatform>(m_brokenPlatformTextures, m_platformBreakSound));
+            m_platforms.emplace_back(std::make_unique<BrokenPlatform>());
         }
         else {
             last_was_broken = false;
-            m_platforms.emplace_back(std::make_unique<Platform>(m_platformTexture));
+            m_platforms.emplace_back(std::make_unique<Platform>());
         }
-        m_platforms.back()->getSprite().setPosition(dist526(rng), 0);
+        m_platforms.back()->setPosition(dist526(Data::rng), 0);
     }
 }
 
-void Engine::gameOver()
+void Core::gameOver()
 {
     sf::Text score;
-    sf::Sprite game_over;
-    sf::Texture game_over_texture;
-    sf::Sprite play_again;
-    sf::Texture play_again_texture;
+    sf::Sprite game_over(Data::m_gameOverTexture);
+    sf::Sprite play_again(Data::m_playAgainTexture);
 
     auto best_score = Score::Load("score.txt");
     if (m_score > best_score) {
@@ -179,13 +148,9 @@ void Engine::gameOver()
         best_score = m_score;
     }
 
-    game_over_texture.loadFromFile("resource/game_over.png");
-    play_again_texture.loadFromFile("resource/play_again.png");
-    game_over.setTexture(game_over_texture);
-    play_again.setTexture(play_again_texture);
     game_over.setPosition(100, 200);
     play_again.setPosition(200, 800);
-    score.setFont(m_font);
+    score.setFont(Data::m_font);
     score.setPosition(150, 500);
     score.setCharacterSize(40);
     score.setFillColor(sf::Color::Black);

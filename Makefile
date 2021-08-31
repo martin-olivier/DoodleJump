@@ -1,7 +1,10 @@
 SRC	=	src/main.cpp				\
-		src/Sound.cpp				\
-		src/Engine.cpp				\
+		src/Core.cpp				\
+		src/Data.cpp				\
 		src/Doodle.cpp				\
+		src/Platform.cpp			\
+		src/Boost.cpp				\
+		src/Score.cpp				\
 
 OBJ = 	$(SRC:.cpp=.o)
 

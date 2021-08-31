@@ -1,10 +1,7 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
 #include <vector>
-#include "Sound.hpp"
+#include "Data.hpp"
 #include "Platform.hpp"
 
 enum class Movement {
@@ -16,15 +13,15 @@ class Doodle
 {
 public:
     sf::Sprite m_sprite;
+    sf::Sound m_jumpSound;
+    sf::Sound m_fallSound;
+    size_t &m_score;
     std::vector<std::unique_ptr<IPlatform>> &m_platforms;
     Movement m_mov = Movement::DOWN;
     float m_last_y{};
     float m_travel{};
-    Sound m_jumpSound{};
-    Sound m_fallSound{};
-    size_t &m_score;
 
-    Doodle(const sf::Texture &texture, size_t &score, std::vector<std::unique_ptr<IPlatform>> &platforms);
+    Doodle(size_t &score, std::vector<std::unique_ptr<IPlatform>> &platforms);
     ~Doodle() = default;
     void update();
 };

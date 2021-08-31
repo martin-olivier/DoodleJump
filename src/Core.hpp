@@ -2,39 +2,29 @@
 
 #include <memory>
 #include <array>
-#include "Sound.hpp"
+#include "Data.hpp"
 #include "Doodle.hpp"
 #include "Platform.hpp"
 
-class Engine
+class Core final
 {
 private:
     sf::RenderWindow m_window{};
     sf::Image m_app_icon{};
     sf::Event m_event{};
 
-    sf::Texture m_rightTexture{};
-    sf::Texture m_leftTexture{};
-    sf::Texture m_platformTexture{};
-    sf::Texture m_verticalPlatformTexture{};
-    sf::Texture m_horizontalPlatformTexture{};
-    std::array<sf::Texture, 4> m_brokenPlatformTextures{};
-    sf::Texture m_backgroundTexture{};
     sf::Sprite m_background{};
-
-    Sound m_platformBreakSound{};
 
     std::vector<std::unique_ptr<IPlatform>> m_platforms{};
     std::unique_ptr<Doodle> m_doodle{};
 
     size_t m_score{};
     sf::Text m_score_display{};
-    sf::Font m_font{};
 public:
-    Engine();
-    ~Engine() = default;
-    Engine(const Engine &) = delete;
-    Engine &operator=(const Engine &) = delete;
+    Core();
+    ~Core() = default;
+    Core(const Core &) = delete;
+    Core &operator=(const Core &) = delete;
 
     void reset();
     void start();

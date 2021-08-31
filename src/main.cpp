@@ -1,10 +1,10 @@
 #include <iostream>
-#include "Engine.hpp"
+#include "Core.hpp"
 
 int main()
 {
     try {
-        Engine app;
+        Core app;
     }
     catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
