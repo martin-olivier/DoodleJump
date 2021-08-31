@@ -21,7 +21,7 @@ void FederBoost::action()
 TrampolineBoost::TrampolineBoost()
 {
     m_size = {80, 35};
-    m_travel = 2000;
+    m_travel = 1500;
     m_sprite.setTexture(Data::trampolineBoostTexture);
     m_sound.setBuffer(Data::trampolineSoundBuffer);
 }
