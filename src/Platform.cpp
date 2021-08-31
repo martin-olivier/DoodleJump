@@ -94,7 +94,6 @@ int VerticalPlatform::jumped()
 BrokenPlatform::BrokenPlatform()
 {
     m_sprite.setTexture(Data::brokenPlatformTextures[0]);
-    m_platformBreakSound.setBuffer(Data::platformBreakSoundBuffer);
 }
 
 void BrokenPlatform::update()
@@ -112,7 +111,39 @@ void BrokenPlatform::update()
 int BrokenPlatform::jumped()
 {
     if (!m_broken)
-        m_platformBreakSound.play();
+        Data::platformBreakSound.play();
     m_broken = true;
     return 0;
+}
+
+// Explosive Platform
+
+ExplosivePlatform::ExplosivePlatform()
+{
+    m_sprite.setTexture(Data::explosivePlatformTextures[0]);
+}
+
+void ExplosivePlatform::update()
+{
+    if (m_it == 0)
+        return;
+    m_tick++;
+    if (m_tick == 50) {
+        m_it = 2;
+        m_sprite.setTexture(Data::explosivePlatformTextures[m_it]);
+        Data::platformExplosionSound.play();
+    }
+    if (m_tick >= 60)
+        m_sprite.setTexture(Data::voidPlatformTexture);
+}
+
+int ExplosivePlatform::jumped()
+{
+    if (m_it == 2)
+        return 0;
+    if (m_it == 0) {
+        m_it = 1;
+        m_sprite.setTexture(Data::explosivePlatformTextures[m_it]);
+    }
+    return 250;
 }

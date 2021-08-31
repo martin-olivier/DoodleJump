@@ -128,6 +128,10 @@ void Core::platforms()
             last_was_broken = true;
             m_platforms.emplace_back(std::make_unique<BrokenPlatform>());
         }
+        else if (rand == 7) {
+            last_was_broken = false;
+            m_platforms.emplace_back(std::make_unique<ExplosivePlatform>());
+        }
         else {
             last_was_broken = false;
             m_platforms.emplace_back(std::make_unique<Platform>());

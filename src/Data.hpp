@@ -24,6 +24,7 @@ namespace Data {
     inline sf::Texture platformTexture{};
     inline sf::Texture verticalPlatformTexture{};
     inline sf::Texture horizontalPlatformTexture{};
+    inline sf::Texture voidPlatformTexture{};
     inline sf::Texture federBoostTexture{};
     inline sf::Texture federBoostUpTexture{};
     inline sf::Texture trampolineBoostTexture{};
@@ -31,14 +32,19 @@ namespace Data {
     inline sf::Texture gameOverTexture{};
     inline sf::Texture playAgainTexture{};
     inline std::array<sf::Texture, 4> brokenPlatformTextures{};
+    inline std::array<sf::Texture, 3> explosivePlatformTextures{};
 
     inline sf::Font font{};
 
     inline sf::SoundBuffer jumpSoundBuffer{};
     inline sf::SoundBuffer fallSoundBuffer{};
     inline sf::SoundBuffer platformBreakSoundBuffer{};
+    inline sf::SoundBuffer platformExplosionSoundBuffer{};
     inline sf::SoundBuffer federSoundBuffer{};
     inline sf::SoundBuffer trampolineSoundBuffer{};
+
+    inline sf::Sound platformBreakSound{};
+    inline sf::Sound platformExplosionSound{};
 
     inline std::random_device dev{};
     inline std::mt19937 rng(dev());

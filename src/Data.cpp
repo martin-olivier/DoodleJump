@@ -7,6 +7,7 @@ void Data::load()
     loadAsset(platformTexture, "resource/platform.png");
     loadAsset(horizontalPlatformTexture, "resource/horizontal_platform.png");
     loadAsset(verticalPlatformTexture, "resource/vertical_platform.png");
+    loadAsset(voidPlatformTexture, "resource/void_platform.png");
     loadAsset(backgroundTexture, "resource/background.png");
     loadAsset(federBoostTexture, "resource/feder.png");
     loadAsset(federBoostUpTexture, "resource/feder_up.png");
@@ -17,12 +18,18 @@ void Data::load()
 
     for (size_t i = 0; i < 4; i++)
         loadAsset(brokenPlatformTextures[i], "resource/broken_platform" + std::to_string(i) + ".png");
+    for (size_t i = 0; i < 3; i++)
+        loadAsset(explosivePlatformTextures[i], "resource/explosive_platform" + std::to_string(i) + ".png");
 
     loadAsset(font, "resource/arial.ttf");
 
     loadAsset(platformBreakSoundBuffer, "resource/platform_break.wav");
+    loadAsset(platformExplosionSoundBuffer, "resource/exploding_platform.wav");
     loadAsset(jumpSoundBuffer, "resource/jump.wav");
     loadAsset(fallSoundBuffer, "resource/fall.wav");
     loadAsset(federSoundBuffer, "resource/feder.wav");
     loadAsset(trampolineSoundBuffer, "resource/trampoline.wav");
+
+    platformBreakSound.setBuffer(platformBreakSoundBuffer);
+    platformExplosionSound.setBuffer(platformExplosionSoundBuffer);
 }

@@ -104,13 +104,24 @@ public:
 class BrokenPlatform final : public APlatform
 {
 private:
-    sf::Sound m_platformBreakSound{};
     bool m_broken = false;
     size_t m_it = 0;
     size_t m_tick = 0;
 public:
     BrokenPlatform();
     ~BrokenPlatform() override = default;
+    void update() override;
+    int jumped() override;
+};
+
+class ExplosivePlatform final : public APlatform
+{
+private:
+    size_t m_it = 0;
+    size_t m_tick = 0;
+public:
+    ExplosivePlatform();
+    ~ExplosivePlatform() override = default;
     void update() override;
     int jumped() override;
 };
