@@ -3,10 +3,10 @@
 Doodle::Doodle(size_t &score, std::vector<std::unique_ptr<IPlatform>> &platforms)
     : m_score(score), m_platforms(platforms)
 {
-    m_sprite.setTexture(Data::m_rightTexture);
+    m_sprite.setTexture(Data::rightTexture);
     m_sprite.setPosition(210, 500);
-    m_jumpSound.setBuffer(Data::m_jumpSoundBuffer);
-    m_fallSound.setBuffer(Data::m_fallSoundBuffer);
+    m_jumpSound.setBuffer(Data::jumpSoundBuffer);
+    m_fallSound.setBuffer(Data::fallSoundBuffer);
     m_last_y = 500;
     m_travel = 250;
 }

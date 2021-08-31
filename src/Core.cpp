@@ -3,22 +3,22 @@
 
 Core::Core()
 {
-    Data::Load();
+    Data::load();
     m_window.create(sf::VideoMode(640, 1024), "Doodle Jump");
     m_window.setFramerateLimit(60);
 
-    m_app_icon.loadFromFile("resource/app_icon.png");
+    Data::loadAsset(m_app_icon, "resource/app_icon.png");
     m_window.setIcon(m_app_icon.getSize().x, m_app_icon.getSize().y, m_app_icon.getPixelsPtr());
 
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
     m_window.setPosition(sf::Vector2i(desktop.width / 2 - m_window.getSize().x/2, desktop.height/2 - m_window.getSize().y/2));
+    m_background.setTexture(Data::backgroundTexture);
 
-    m_score_display.setFont(Data::m_font);
+    m_score_display.setFont(Data::font);
     m_score_display.setPosition(10, 10);
     m_score_display.setCharacterSize(40);
     m_score_display.setFillColor(sf::Color::Black);
 
-    m_background.setTexture(Data::m_backgroundTexture);
     reset();
     start();
 }
@@ -61,13 +61,13 @@ void Core::event()
     auto pos = m_doodle->m_sprite.getPosition();
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         m_doodle->m_sprite.setPosition(pos.x + 8, pos.y);
-        m_doodle->m_sprite.setTexture(Data::m_rightTexture);
+        m_doodle->m_sprite.setTexture(Data::rightTexture);
         if (m_doodle->m_sprite.getPosition().x >= 640)
             m_doodle->m_sprite.setPosition(-110, m_doodle->m_sprite.getPosition().y);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
         m_doodle->m_sprite.setPosition(pos.x - 8, pos.y);
-        m_doodle->m_sprite.setTexture(Data::m_leftTexture);
+        m_doodle->m_sprite.setTexture(Data::leftTexture);
         if (m_doodle->m_sprite.getPosition().x <= -110)
             m_doodle->m_sprite.setPosition(640, m_doodle->m_sprite.getPosition().y);
     }
@@ -139,8 +139,8 @@ void Core::platforms()
 void Core::gameOver()
 {
     sf::Text score;
-    sf::Sprite game_over(Data::m_gameOverTexture);
-    sf::Sprite play_again(Data::m_playAgainTexture);
+    sf::Sprite game_over(Data::gameOverTexture);
+    sf::Sprite play_again(Data::playAgainTexture);
 
     auto best_score = Score::Load("score.txt");
     if (m_score > best_score) {
@@ -150,7 +150,7 @@ void Core::gameOver()
 
     game_over.setPosition(100, 200);
     play_again.setPosition(200, 800);
-    score.setFont(Data::m_font);
+    score.setFont(Data::font);
     score.setPosition(150, 500);
     score.setCharacterSize(40);
     score.setFillColor(sf::Color::Black);

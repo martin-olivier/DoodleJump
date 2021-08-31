@@ -12,9 +12,9 @@ enum class Movement {
 class Doodle
 {
 public:
-    sf::Sprite m_sprite;
-    sf::Sound m_jumpSound;
-    sf::Sound m_fallSound;
+    sf::Sprite m_sprite{};
+    sf::Sound m_jumpSound{};
+    sf::Sound m_fallSound{};
     size_t &m_score;
     std::vector<std::unique_ptr<IPlatform>> &m_platforms;
     Movement m_mov = Movement::DOWN;

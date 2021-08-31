@@ -4,7 +4,7 @@
 
 Platform::Platform()
 {
-    m_sprite.setTexture(Data::m_platformTexture);
+    m_sprite.setTexture(Data::platformTexture);
 }
 
 void Platform::update()
@@ -25,7 +25,7 @@ int Platform::jumped()
 
 HorizontalPlatform::HorizontalPlatform()
 {
-    m_sprite.setTexture(Data::m_horizontalPlatformTexture);
+    m_sprite.setTexture(Data::horizontalPlatformTexture);
 }
 
 void HorizontalPlatform::update()
@@ -57,7 +57,7 @@ int HorizontalPlatform::jumped()
 
 VerticalPlatform::VerticalPlatform()
 {
-    m_sprite.setTexture(Data::m_verticalPlatformTexture);
+    m_sprite.setTexture(Data::verticalPlatformTexture);
 };
 
 void VerticalPlatform::update()
@@ -93,8 +93,8 @@ int VerticalPlatform::jumped()
 
 BrokenPlatform::BrokenPlatform()
 {
-    m_sprite.setTexture(Data::m_brokenPlatformTextures[0]);
-    m_platformBreakSound.setBuffer(Data::m_platformBreakSoundBuffer);
+    m_sprite.setTexture(Data::brokenPlatformTextures[0]);
+    m_platformBreakSound.setBuffer(Data::platformBreakSoundBuffer);
 }
 
 void BrokenPlatform::update()
@@ -105,7 +105,7 @@ void BrokenPlatform::update()
     setPosition(getPosition().x, getPosition().y + 10);
     if (m_tick % 5 == 0 and m_it < 3) {
         m_it = m_tick / 5;
-        m_sprite.setTexture(Data::m_brokenPlatformTextures[m_it]);
+        m_sprite.setTexture(Data::brokenPlatformTextures[m_it]);
     }
 }
 
