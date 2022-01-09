@@ -23,7 +23,7 @@ jobs:
               if: ${{ matrix.os == 'ubuntu-latest' }}
               run: |
                 sudo apt update
-                sudo apt install -y libx11-dev xserver-xorg-dev xorg-dev libudev-dev libopenal-dev libvorbis-dev
+                sudo apt install -y libx11-dev xserver-xorg-dev xorg-dev libudev-dev libopenal-dev libvorbis-dev libflac-dev
 
             - name: Generate Build File
               run: cmake . -B build/ -DCMAKE_BUILD_TYPE=Debug
