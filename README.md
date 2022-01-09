@@ -1,7 +1,7 @@
 # Doodle Jump
 The famous addictive game by Lima Sky rewritten in C++
 
-![Example](resource/exemple.gif)
+![Example](.github/example.png)
 
 # Installation
 

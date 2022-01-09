@@ -7,6 +7,7 @@
 #include <array>
 #include <random>
 #include <exception>
+#include <string>
 
 namespace Data {
     class MissingAsset : public std::exception {
