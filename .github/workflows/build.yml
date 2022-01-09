@@ -1,32 +1,26 @@
-name: Build
+name: CI
 
 on: [push]
 
 defaults:
-  run:
-    shell: bash
+    run:
+        shell: bash
 
 jobs:
-  build_ubuntu:
-    name: ubuntu
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+    build_and_test:
+        strategy:
+            fail-fast: false
+            matrix:
+                os: [windows-latest, ubuntu-latest, macos-latest]
 
-      - name: update packages
-        run: sudo apt-get update
-      - name: install sfml
-        run: sudo apt-get install libsfml-dev
-      - name: make Doodle Jump
-        run: make
+        name: Build
+        runs-on: ${{ matrix.os }}
 
-  build_macos:
-    name: macOS
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
+        steps:
+            - uses: actions/checkout@v2
 
-      - name: install sfml
-        run: brew install sfml
-      - name: make Doodle Jump
-        run: make
+            - name: Generate Build File
+              run: cmake . -B build/ -DCMAKE_BUILD_TYPE=Debug
+
+            - name: Build Project
+              run: cmake --build build/

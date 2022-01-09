@@ -1,5 +1,6 @@
 # Editor files and folders
 
+build/
 .idea/
 .vscode/
 .DS_Store

@@ -3,24 +3,30 @@ The famous addictive game by Lima Sky rewritten in C++
 
 ![Example](.github/example.png)
 
-# Installation
+# Prerequirement
 
-You will need the SFML library :
+You will need thoses dependencies to build :
 ```
-# on Ubuntu
-
-sudo apt-get install libsfml-dev
-
-# on Mac OS
-
-brew install sfml
+freetype
+x11
+xrandr
+udev
+opengl
+flac
+ogg
+vorbis
+vorbisenc
+vorbisfile
+openal
+pthread
 ```
 
 # Build
 
 After cloning the repository enter the following commands to build the game :
 ```
-make
+cmake . -B build/
+cmake --build build/
 ```
 
 # Usage
