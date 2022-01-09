@@ -5,7 +5,7 @@ The famous addictive game by Lima Sky rewritten in C++
 
 # Prerequirement
 
-You will need thoses dependencies to build :
+You will need thoses dependencies to build the game:
 ```
 freetype
 x11
