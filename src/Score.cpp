@@ -1,4 +1,5 @@
 #include "Score.hpp"
+#include <iostream>
 #include <fstream>
 
 void Score::Save(const std::string &path, size_t score)
