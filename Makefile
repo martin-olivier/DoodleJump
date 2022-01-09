@@ -1,4 +1,4 @@
-SRC	=	src/main.cpp				\
+SRC	=	src/Main.cpp				\
 		src/Core.cpp				\
 		src/Data.cpp				\
 		src/Doodle.cpp				\
