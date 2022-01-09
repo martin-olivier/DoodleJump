@@ -102,7 +102,7 @@ void BrokenPlatform::update()
         return;
     m_tick++;
     setPosition(getPosition().x, getPosition().y + 10);
-    if (m_tick % 5 == 0 and m_it < 3) {
+    if (m_tick % 5 == 0 && m_it < 3) {
         m_it = m_tick / 5;
         m_sprite.setTexture(Data::brokenPlatformTextures[m_it]);
     }

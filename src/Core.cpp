@@ -114,7 +114,7 @@ void Core::platforms()
 
     static bool last_was_broken = false;
 
-    if (!m_platforms.empty() and m_platforms.back()->getPosition().y > 100) {
+    if (!m_platforms.empty() && m_platforms.back()->getPosition().y > 100) {
         auto rand = dist20(Data::rng);
         if (rand < 4) {
             last_was_broken = false;
@@ -124,7 +124,7 @@ void Core::platforms()
             last_was_broken = false;
             m_platforms.emplace_back(std::make_unique<VerticalPlatform>());
         }
-        else if ((rand == 5 or rand == 6) and !last_was_broken) {
+        else if ((rand == 5 || rand == 6) && !last_was_broken) {
             last_was_broken = true;
             m_platforms.emplace_back(std::make_unique<BrokenPlatform>());
         }
@@ -165,7 +165,7 @@ void Core::gameOver()
             if (m_event.type == sf::Event::Closed)
                 m_window.close();
             if (m_event.type == sf::Event::MouseButtonReleased && m_event.mouseButton.button == sf::Mouse::Left) {
-                if (m_event.mouseButton.x >= 200 and m_event.mouseButton.x <= 424 and m_event.mouseButton.y >= 800 and m_event.mouseButton.y <= 885) {
+                if (m_event.mouseButton.x >= 200 && m_event.mouseButton.x <= 424 && m_event.mouseButton.y >= 800 && m_event.mouseButton.y <= 885) {
                     reset();
                     start();
                 }

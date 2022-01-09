@@ -17,7 +17,7 @@ void Doodle::update()
 
     // Handle Doodle death
 
-    if (pos.y >= 1020 and pos.y < 1030)
+    if (pos.y >= 1020 && pos.y < 1030)
         m_fallSound.play();
     else if (pos.y > 1030) {
         for (auto &p : m_platforms)
@@ -29,7 +29,7 @@ void Doodle::update()
 
     if (m_mov == Movement::DOWN) {
         for (auto &p : m_platforms) {
-            if ((p->getPosition().y >= pos.y + 110 and p->getPosition().y <= pos.y + 125) and pos.x > p->getPosition().x - 100 and pos.x < p->getPosition().x + 100) {
+            if ((p->getPosition().y >= pos.y + 110 && p->getPosition().y <= pos.y + 125) && pos.x > p->getPosition().x - 100 && pos.x < p->getPosition().x + 100) {
                 auto jump = p->jumped();
                 if (jump > 0) {
                     m_mov = Movement::UP;
@@ -61,7 +61,7 @@ void Doodle::update()
             m_mov = Movement::DOWN;
         else {
             float move;
-            if (m_travel > 250 and m_last_y > pos.y + (4 * m_travel / 5))
+            if (m_travel > 250 && m_last_y > pos.y + (4 * m_travel / 5))
                 move = 10;
             else if (m_travel > 250)
                 move = 20;

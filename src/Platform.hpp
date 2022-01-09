@@ -61,7 +61,7 @@ public:
     {
         std::uniform_int_distribution<std::mt19937::result_type> dist(0,50);
         auto rand = dist(Data::rng);
-        if (rand == 0 or rand == 1)
+        if (rand == 0 || rand == 1)
             m_boost = std::make_unique<FederBoost>();
         else if (rand == 2)
             m_boost = std::make_unique<TrampolineBoost>();
