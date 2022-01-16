@@ -5,28 +5,15 @@ The famous addictive game by Lima Sky rewritten in C++
 
 # Prerequirement
 
-You will need thoses dependencies to build the game:
-```
-freetype
-x11
-xrandr
-udev
-opengl
-flac
-ogg
-vorbis
-vorbisenc
-vorbisfile
-openal
-pthread
-```
+You will need to install the SFML library to build the game:  
+https://www.sfml-dev.org/download/sfml/2.5.1/
 
 # Build
 
-After cloning the repository enter the following commands to build the game :
+Enter the following commands to build the game:
 ```
-cmake . -B build/
-cmake --build build/
+cmake . -B build
+cmake --build build
 ```
 
 # Usage

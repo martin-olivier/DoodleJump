@@ -5,10 +5,10 @@ project(DoodleJump)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_BINARY_DIR})
 
-include(import/FetchSFML.cmake)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(SFML 2.5.1 COMPONENTS graphics audio system window REQUIRED)
 
 if (UNIX)
     add_compile_options(-Wall -Wextra -Weffc++)
