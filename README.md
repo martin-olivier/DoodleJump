@@ -5,8 +5,13 @@ The famous addictive game by Lima Sky rewritten in C++
 
 # Prerequirement
 
-You will need to install the SFML library to build the game:  
+To build the game, you will need to install the `SFML` library:  
 https://www.sfml-dev.org/download/sfml/2.5.1/
+
+You will also need `cmake` with a version upper or equal to `3.17`
+```sh
+pip install cmake
+```
 
 # Build
 
